@@ -1,5 +1,6 @@
 import type { DCFModel } from './types.js';
 import { getAllModels, deleteModel, saveModel, generateId, createDefaultWACC, createDefaultDCF, importModels } from './storage.js';
+import { calcWACC, calcDCF } from './calc.js';
 
 function renderModelList(): void {
   const container = document.getElementById('model-list')!;
@@ -10,17 +11,32 @@ function renderModelList(): void {
     return;
   }
 
-  const rows = models.map(m => `
+  const rows = models.map(m => {
+    let fairVal = '—';
+    let mosVal = '—';
+    let mosClass = '';
+    try {
+      const result = calcDCF(m.dcf);
+      fairVal = '$' + result.fairValuePerShare.toFixed(2);
+      if (m.dcf.currentPrice > 0) {
+        const mos = result.marginOfSafety;
+        mosVal = mos.toFixed(1) + '%';
+        mosClass = mos >= 0 ? 'text-success' : 'text-danger';
+      }
+    } catch { /* skip */ }
+    return `
     <tr class="clickable-row" data-id="${m.id}">
       <td>${escapeHtml(m.name)}</td>
       <td>${m.years}Y</td>
-      <td>${formatDate(m.createdAt)}</td>
+      <td>${fairVal}</td>
+      <td class="${mosClass}">${mosVal}</td>
       <td>${formatDate(m.updatedAt)}</td>
       <td class="actions">
         <button class="btn btn-sm btn-danger" data-delete="${m.id}" data-name="${escapeHtml(m.name)}">Delete</button>
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 
   container.innerHTML = `
     <table class="data-table">
@@ -28,7 +44,8 @@ function renderModelList(): void {
         <tr>
           <th>Name</th>
           <th>Horizon</th>
-          <th>Created</th>
+          <th>Fair Value</th>
+          <th>MoS</th>
           <th>Updated</th>
           <th>Actions</th>
         </tr>

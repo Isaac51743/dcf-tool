@@ -1,6 +1,9 @@
 /* ========== Reset & Base ========== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+.text-success { color: var(--green); font-weight: 600; }
+.text-danger { color: #e74c3c; font-weight: 600; }
+
 :root {
   --bg: #000000;
   --bg-card: #0a0a0a;
