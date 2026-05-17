@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Domi DCF Valuation Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Domi DCF Valuation Tool</h1>
+  </header>
+
+  <div class="container">
+    <div class="action-bar">
+      <button id="btn-new" class="btn btn-primary">+ New DCF Model</button>
+      <div class="spacer"></div>
+      <button id="btn-export" class="btn btn-outline">Export All</button>
+      <button id="btn-import" class="btn btn-outline">Import</button>
+      <input type="file" id="file-import" accept=".json" style="display:none" />
+    </div>
+
+    <div class="card">
+      <h2>Models</h2>
+      <div id="model-list"></div>
+    </div>
+  </div>
+
+  <!-- Create Dialog -->
+  <div id="create-dialog" class="dialog-overlay">
+    <div class="dialog">
+      <h3>Select Forecast Period</h3>
+      <p class="dialog-desc">Choose the projection horizon for your DCF model.</p>
+      <div class="btn-group">
+        <button id="btn-10y" class="btn btn-primary btn-lg">10 Years</button>
+        <button id="btn-20y" class="btn btn-primary btn-lg">20 Years</button>
+      </div>
+      <div class="btn-group" style="margin-top:12px;">
+        <button id="btn-cancel" class="btn btn-outline">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>
